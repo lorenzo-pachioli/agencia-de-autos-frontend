@@ -1,0 +1,14 @@
+import type { ReactNode } from 'react';
+
+interface Props { icon?: ReactNode; title: string; description?: string; action?: ReactNode; }
+
+export default function EmptyState({ icon, title, description, action }: Props) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      {icon && <div className="text-slate-300 mb-4">{icon}</div>}
+      <p className="font-semibold text-slate-600 text-lg">{title}</p>
+      {description && <p className="text-slate-400 text-sm mt-1 max-w-xs">{description}</p>}
+      {action && <div className="mt-4">{action}</div>}
+    </div>
+  );
+}

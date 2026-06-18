@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body { @apply font-body bg-[#f8f8f8] text-[#0f0f0f] antialiased; }
+}
+
+@layer components {
+
+  /* ── Fonts ── */
+  .font-display { font-family: 'Playfair Display', serif; }
+  .font-body    { font-family: 'DM Sans', sans-serif; }
+  .font-mono    { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── Public buttons ── */
+  .btn-gold {
+    @apply bg-[#c9a84c] hover:bg-[#b8962a] text-[#0f0f0f] font-semibold px-6 py-3 rounded-sm text-sm transition-all duration-200 tracking-wide;
+  }
+  .btn-gold.btn-sm { @apply px-4 py-2 text-xs; }
+  .btn-dark {
+    @apply bg-[#0f0f0f] hover:bg-[#1a1a1a] text-white font-semibold px-6 py-3 rounded-sm text-sm transition-all;
+  }
+  .btn-outline {
+    @apply border border-[#0f0f0f] text-[#0f0f0f] hover:bg-[#0f0f0f] hover:text-white font-semibold px-6 py-3 rounded-sm text-sm transition-all;
+  }
+  .btn-outline.btn-sm { @apply px-4 py-2 text-xs; }
+  .btn-ghost {
+    @apply text-sm font-medium px-4 py-2 rounded-sm transition-colors;
+  }
+  .btn-sm { @apply px-4 py-2 text-xs; }
+
+  /* ── Admin buttons ── */
+  .btn-admin-primary {
+    @apply bg-[#0f0f0f] hover:bg-[#1a1a1a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50;
+  }
+  .btn-admin-secondary {
+    @apply bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors;
+  }
+  .btn-admin-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50;
+  }
+
+  /* ── Public inputs ── */
+  .input-field {
+    @apply w-full border border-[#e8e8e8] rounded-sm px-3.5 py-2.5 text-sm bg-white focus:outline-none focus:border-[#c9a84c] focus:ring-1 focus:ring-[#c9a84c] placeholder:text-slate-400 transition-all;
+  }
+  .label-field {
+    @apply block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5;
+  }
+
+  /* ── Admin inputs ── */
+  .input-admin {
+    @apply w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-[#c9a84c] placeholder:text-slate-400 transition-all;
+  }
+  .label-admin {
+    @apply block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5;
+  }
+
+  /* ── Cards ── */
+  .card-vehicle {
+    @apply bg-white border border-[#e8e8e8] hover:border-[#c9a84c] hover:shadow-lg cursor-pointer transition-all duration-300 rounded-sm overflow-hidden;
+  }
+  .card-stat {
+    @apply bg-white border border-[#e8e8e8] rounded-sm p-5;
+  }
+  .card-admin {
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm;
+  }
+
+  /* ── Typography ── */
+  .section-title {
+    @apply font-display font-bold text-3xl text-[#0f0f0f];
+  }
+  .admin-page-title {
+    @apply font-bold text-2xl text-slate-900 tracking-tight;
+  }
+
+  /* ── Status badges ── */
+  .badge-disponible  { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800; }
+  .badge-reservado   { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800; }
+  .badge-vendido     { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-200 text-slate-700; }
+  .badge-en_reparacion { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800; }
+  .badge-baja        { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700; }
+
+  /* ── Animations ── */
+  .animate-fade-up {
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
