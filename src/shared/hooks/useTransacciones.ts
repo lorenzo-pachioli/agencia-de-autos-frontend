@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 export const useTransacciones = (filtros?: TransaccionFiltros) =>
   useQuery({
     queryKey: ['transacciones', filtros], queryFn: () => transaccionesApi.listar(filtros).then(r => {
-      console.log(r.data);
       return r.data;
     })
   });
