@@ -19,7 +19,6 @@ export default function AdminUsuariosPage() {
 
   const usuarios: Usuario[] = Array.isArray(data) ? data : data?.content ?? [];
   const rolColor: Record<string, string> = { ADMIN: 'bg-purple-100 text-purple-700', VENDEDOR: 'bg-blue-100 text-blue-700', CLIENTE: 'bg-slate-100 text-slate-600' };
-  console.log(usuarios);
 
   return (
     <div>

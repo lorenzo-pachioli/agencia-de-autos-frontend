@@ -13,7 +13,6 @@ export default function VehiculoDetallePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data, isLoading } = useVehiculo(Number(id));
-  console.log(data);
 
   const { isAuthenticated, user } = useAuthStore();
   const { agregar } = useFavoritosMutation();

@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { ROLES } from '../../types/auth';
 import { Car, Heart, User, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -10,11 +10,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/'); };
-
-  useEffect(() => {
-    console.log('isAuthenticated', isAuthenticated);
-    console.log('user', user);
-  }, [isAuthenticated, user]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-[#0f0f0f]/95 backdrop-blur-sm border-b border-white/5">
