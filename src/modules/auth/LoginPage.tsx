@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/authStore';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Car, Eye, EyeOff } from 'lucide-react';
+import { ROLES } from '../../types/auth';
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<{ email: string; password: string }>();
@@ -25,7 +26,7 @@ export default function LoginPage() {
       login(token, { email: data.email });
       toast.success('Bienvenido');
       const stored = useAuthStore.getState().user;
-      if (stored?.rol === 'ADMIN' || stored?.rol === 'VENDEDOR') {
+      if (stored?.rol === ROLES.ADMINISTRADOR || stored?.rol === ROLES.VENDEDOR) {
         navigate('/admin', { replace: true });
       } else {
         navigate(from !== '/login' ? from : '/', { replace: true });

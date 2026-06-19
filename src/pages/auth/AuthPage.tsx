@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { authApi } from '../../api/auth.api';
-import { saveConfig, getConfig } from '../../api/config';
 import { useRequestLog } from '../../hooks/useRequestLog';
 import ApiResponseCard from '../../components/ApiResponseCard';
 import PageHeader from '../../components/PageHeader';
@@ -30,7 +29,6 @@ export default function AuthPage() {
       const token = (res as { token?: string })?.token ?? (res as { data?: { token?: string } })?.data?.token ?? '';
       if (token) {
         setReceivedToken(token);
-        saveConfig({ ...getConfig(), token });
         toast.success('Login exitoso — token guardado en configuración');
       }
     }
@@ -57,9 +55,8 @@ export default function AuthPage() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              tab === t ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
           >
             {t === 'login' ? 'POST /auth/login' : 'POST /auth/register'}
           </button>

@@ -4,8 +4,8 @@ import type { AuditoriaFiltros, AuditoriaResponseDTO } from '../types/auditoria'
 export const auditoriaApi = {
   porTransaccion: (id: number) => apiClient.get(`/auditoria/transaccion/${id}`),
   porVendedor: (id: number) => apiClient.get(`/auditoria/vendedor/${id}`),
-  listar: (filtros?: AuditoriaFiltros): Promise<AuditoriaResponseDTO[]> =>
-    apiClient.get('/auditoria', { params: filtros }),
+  listar: (filtros?: AuditoriaFiltros) =>
+    apiClient.get<AuditoriaResponseDTO[]>('/auditoria', { params: filtros }),
 
   cambiosEstado: (
     fechaDesde?: string,

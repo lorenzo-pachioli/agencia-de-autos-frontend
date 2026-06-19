@@ -21,8 +21,18 @@ export default function TransaccionesPage() {
 
   const filtrosForm = useForm<TransaccionFiltros>();
   const obtenerForm = useForm({ defaultValues: { id: 0 } });
-  const crearForm = useForm({ defaultValues: { vehiculo_id: 0, cliente_id: 0, vendedor_id: 0, precio_final: 0, estadoTransaccion: 'RESERVA', metodoPago: '', observaciones: '' } });
   const actualizarForm = useForm({ defaultValues: { id: 0, vehiculo_id: 0, cliente_id: 0, vendedor_id: 0, precio_final: 0, estadoTransaccion: 'RESERVA', metodoPago: '', observaciones: '' } });
+  const crearForm = useForm<TransaccionCrearDTO>({
+    defaultValues: {
+      vehiculo_id: 0,
+      cliente_id: 0,
+      vendedor_id: 0,
+      precio_final: 0,
+      estadoTransaccion: 'RESERVA',
+      metodoPago: 'EFECTIVO',
+      observaciones: ''
+    }
+  });
 
   const handleListar = filtrosForm.handleSubmit(async (data) => {
     const clean = Object.fromEntries(Object.entries(data).filter(([, v]) => v !== '' && v !== undefined && v !== null)) as TransaccionFiltros;
@@ -35,7 +45,7 @@ export default function TransaccionesPage() {
     await obtenerLog.execute('GET', `/transacciones/${id}`, undefined, () => transaccionesApi.obtener(id));
   });
 
-  const handleCrear = crearForm.handleSubmit(async (data: TransaccionCrearDTO) => {
+  const handleCrear = crearForm.handleSubmit(async (data) => {
     await crearLog.execute('POST', '/transacciones', data, () => transaccionesApi.crear(data));
     toast.success('Transacción creada');
   });

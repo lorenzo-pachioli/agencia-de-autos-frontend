@@ -5,12 +5,12 @@ import { useRequestLog } from '../../hooks/useRequestLog';
 import ApiResponseCard from '../../components/ApiResponseCard';
 import PageHeader from '../../components/PageHeader';
 import DataTable from '../../components/DataTable';
-import type { AuditoriaFiltros, Auditoria } from '../../types/auditoria';
+import type { AuditoriaFiltros, AuditoriaResponseDTO } from '../../types/auditoria';
 import { Loader2, X } from 'lucide-react';
 import { ESTADOS } from '../../types/transaccion';
 
 export default function AuditoriaPage() {
-  const [auditorias, setAuditorias] = useState<Auditoria[]>([]);
+  const [auditorias, setAuditorias] = useState<AuditoriaResponseDTO[]>([]);
   const listarLog = useRequestLog();
   const transaccionLog = useRequestLog();
   const vendedorLog = useRequestLog();
@@ -22,10 +22,22 @@ export default function AuditoriaPage() {
   const vendedorForm = useForm({ defaultValues: { id: 0 } });
 
   const handleListar = filtrosForm.handleSubmit(async (data) => {
-    const clean = Object.fromEntries(Object.entries(data).filter(([, v]) => v !== '' && v !== undefined && v !== null)) as AuditoriaFiltros;
-    const res = await listarLog.execute('GET', '/auditoria', clean, () => auditoriaApi.listar(clean));
-    if (Array.isArray(res)) setAuditorias(res);
-    else if (res && Array.isArray((res as { content?: Auditoria[] }).content)) setAuditorias((res as { content: Auditoria[] }).content);
+    const clean = Object.fromEntries(
+      Object.entries(data).filter(
+        ([, v]) => v !== '' && v !== undefined && v !== null
+      )
+    ) as AuditoriaFiltros;
+
+    const res = await listarLog.execute(
+      'GET',
+      '/auditoria',
+      clean,
+      () => auditoriaApi.listar(clean)
+    );
+
+    if (Array.isArray(res)) {
+      setAuditorias(res);
+    }
   });
 
   return (

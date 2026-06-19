@@ -2,7 +2,7 @@ import { useReporteStock, useReporteUltimos } from '../../shared/hooks/useVehicu
 import StatCard from '../../shared/components/StatCard';
 import Spinner from '../../shared/components/Spinner';
 import { formatPrice } from '../../shared/utils/format';
-import { Car, CheckCircle, Clock, TrendingUp, Package } from 'lucide-react';
+import { Car, CheckCircle, Clock, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Vehiculo } from '../../types/vehiculo';
 

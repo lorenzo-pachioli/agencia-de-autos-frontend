@@ -8,6 +8,7 @@ import { formatDate, transaccionEstadoLabel } from '../../shared/utils/format';
 import { ClipboardList, Search, X } from 'lucide-react';
 import type { AuditoriaFiltros, AuditoriaResponseDTO } from '../../types/auditoria';
 import { ESTADOS } from '../../types/transaccion';
+import type { EstadoTransaccion } from '../../types/transaccion';
 
 export default function AuditoriaAdminPage() {
   const [filtros, setFiltros] = useState<AuditoriaFiltros>({});
@@ -91,10 +92,18 @@ export default function AuditoriaAdminPage() {
                   <td className="px-4 py-3 font-semibold">{a.transaccion_id}</td>
                   <td className="px-4 py-3 font-semibold">{a.vendedor_id}</td>
                   <td className="px-4 py-3">
-                    {a.estadoAnterior ? <span className="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">{transaccionEstadoLabel[a.estadoAnterior] ?? a.estadoAnterior}</span> : '—'}
+                    {a.estadoAnterior ? (
+                      <span className="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">
+                        {transaccionEstadoLabel[a.estadoAnterior as EstadoTransaccion] ?? a.estadoAnterior}
+                      </span>
+                    ) : '—'}
                   </td>
                   <td className="px-4 py-3">
-                    {a.estadoNuevo ? <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">{transaccionEstadoLabel[a.estadoNuevo] ?? a.estadoNuevo}</span> : '—'}
+                    {a.estadoNuevo ? (
+                      <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
+                        {transaccionEstadoLabel[a.estadoNuevo as EstadoTransaccion] ?? a.estadoNuevo}
+                      </span>
+                    ) : '—'}
                   </td>
                   <td className="px-4 py-3 text-slate-500">
                     {a.precioFinalAnterior ? `$${Number(a.precioFinalAnterior).toLocaleString('es-AR')}` : '—'}

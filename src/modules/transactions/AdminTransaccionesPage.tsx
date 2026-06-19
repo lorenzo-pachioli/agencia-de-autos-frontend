@@ -8,7 +8,7 @@ import { formatPrice, transaccionEstadoLabel, transaccionEstadoBadge, obtenerFec
 import { useForm } from 'react-hook-form';
 import { Plus, ReceiptText } from 'lucide-react';
 import { type Transaccion, type TransaccionCrearDTO, ESTADOS, MetodoPago } from '../../types/transaccion';
-
+import type { EstadoTransaccion } from '../../types/transaccion';
 
 export default function AdminTransaccionesPage() {
   const { data, isLoading } = useTransacciones();
@@ -58,7 +58,7 @@ export default function AdminTransaccionesPage() {
           <button key={e} onClick={() => setFiltroEstado(e)}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${filtroEstado === e ? 'bg-[#c9a84c] border-[#c9a84c] text-[#0f0f0f]' : 'border-slate-200 text-slate-600 hover:border-slate-300'
               }`}>
-            {e === '' ? 'Todos' : transaccionEstadoLabel[e]}
+            {e === '' ? 'Todos' : transaccionEstadoLabel[e as EstadoTransaccion]}
           </button>
         ))}
       </div>

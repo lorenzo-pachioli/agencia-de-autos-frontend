@@ -190,7 +190,7 @@ export default function ReportesPage() {
               </thead>
 
               <tbody>
-                {auditorias?.content?.map((a: any) => (
+                {auditorias?.map((a: any) => (
                   <tr key={a.id} className="border-b">
                     <td className="p-3">
                       {a.created_at}

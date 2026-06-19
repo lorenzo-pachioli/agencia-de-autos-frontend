@@ -9,10 +9,11 @@ import EmptyState from '../../shared/components/EmptyState';
 import { formatPrice, estadoBadge, estadoLabel } from '../../shared/utils/format';
 import { Plus, Pencil, Trash2, RefreshCw, Car } from 'lucide-react';
 import type { Vehiculo } from '../../types/vehiculo';
+import { ROLES } from '../../types/auth';
 
-const ESTADOS = ['DISPONIBLE','RESERVADO','VENDIDO','EN_REPARACION','BAJA'];
-const COMBUSTIBLES = ['NAFTA','DIESEL','ELECTRICO','HIBRIDO','GNC'];
-const TRANSMISIONES = ['MANUAL','AUTOMATICA'];
+const ESTADOS = ['DISPONIBLE', 'RESERVADO', 'VENDIDO', 'EN_REPARACION', 'BAJA'];
+const COMBUSTIBLES = ['NAFTA', 'DIESEL', 'ELECTRICO', 'HIBRIDO', 'GNC'];
+const TRANSMISIONES = ['MANUAL', 'AUTOMATICA'];
 
 const VehiculoForm = ({ onSubmit, loading, defaultValues }: { onSubmit: (d: unknown) => void; loading: boolean; defaultValues?: Partial<Vehiculo> }) => {
   const { register, handleSubmit } = useForm({ defaultValues: defaultValues ?? {} });
@@ -21,7 +22,7 @@ const VehiculoForm = ({ onSubmit, loading, defaultValues }: { onSubmit: (d: unkn
       <div className="grid grid-cols-2 gap-3">
         <div><label className="label-admin">Patente *</label><input {...register('patente')} className="input-admin" placeholder="ABC123" /></div>
         <div><label className="label-admin">Año *</label><input {...register('anio', { valueAsNumber: true })} type="number" className="input-admin" /></div>
-        <div><label className="label-admin">Modelo ID *</label><input {...register('modeloId', { valueAsNumber: true })} type="number" className="input-admin" /></div>
+        <div><label className="label-admin">Modelo *</label><input {...register('modeloNombre')} type="string" className="input-admin" /></div>
         <div><label className="label-admin">Color</label><input {...register('color')} className="input-admin" placeholder="Blanco" /></div>
         <div><label className="label-admin">Km</label><input {...register('kilometraje', { valueAsNumber: true })} type="number" className="input-admin" /></div>
         <div>
@@ -85,7 +86,7 @@ export default function AdminVehiculosPage() {
           <table className="w-full text-sm">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                {['ID','Patente','Año','Color','Estado','Precio venta','Acciones'].map(h => (
+                {['ID', 'Patente', 'Año', 'Color', 'Estado', 'Precio venta', 'Acciones'].map(h => (
                   <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">{h}</th>
                 ))}
               </tr>
@@ -103,7 +104,7 @@ export default function AdminVehiculosPage() {
                     <div className="flex items-center gap-2">
                       <button onClick={() => setCambioEstado(v)} title="Cambiar estado" className="text-slate-400 hover:text-blue-600 transition-colors"><RefreshCw size={15} /></button>
                       <button onClick={() => setEditando(v)} title="Editar" className="text-slate-400 hover:text-[#c9a84c] transition-colors"><Pencil size={15} /></button>
-                      {user?.rol === 'ADMIN' && (
+                      {user?.rol === ROLES.ADMINISTRADOR && (
                         <button onClick={() => setEliminando(v.id)} title="Eliminar" className="text-slate-400 hover:text-red-600 transition-colors"><Trash2 size={15} /></button>
                       )}
                     </div>
@@ -134,9 +135,8 @@ export default function AdminVehiculosPage() {
             <div className="space-y-2">
               {ESTADOS.map(e => (
                 <button key={e} onClick={() => cambiarEstado.mutate({ id: cambioEstado.id, estado: e }, { onSuccess: () => setCambioEstado(null) })}
-                  className={`w-full text-left px-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${
-                    cambioEstado.estado === e ? 'border-[#c9a84c] bg-[#c9a84c]/10 text-[#0f0f0f]' : 'border-slate-200 hover:border-slate-300'
-                  }`}>
+                  className={`w-full text-left px-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${cambioEstado.estado === e ? 'border-[#c9a84c] bg-[#c9a84c]/10 text-[#0f0f0f]' : 'border-slate-200 hover:border-slate-300'
+                    }`}>
                   {estadoLabel[e]}
                 </button>
               ))}
