@@ -3,6 +3,9 @@ import { RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { publicApiClient } from './api/client';
+import { marcasApi } from './api/marcas.api';
+import { modelosApi } from './api/modelos.api';
+import { vehiculosApi } from './api/vehiculos.api';
 import { router } from './routes';
 
 const queryClient = new QueryClient({
@@ -11,8 +14,11 @@ const queryClient = new QueryClient({
   },
 });
 
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 export default function App() {
   const [serverReady, setServerReady] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('Verificando conexión con el servidor...');
 
   useEffect(() => {
     let cancelled = false;
@@ -20,12 +26,44 @@ export default function App() {
 
     const waitForServer = async () => {
       try {
+        if (cancelled) return;
+        setLoadingMessage('Conectando con el servidor...');
+        // 1. Healthcheck básico
         await publicApiClient.get('/auth/healthcheck', { timeout: 5000 });
+        await delay(250);
+
+        if (cancelled) return;
+        setLoadingMessage('Cargando marcas...');
+        // 2. Prefetch de Marcas en la cache de React Query
+        await queryClient.prefetchQuery({
+          queryKey: ['marcas'],
+          queryFn: () => marcasApi.listar().then(r => r.data),
+        });
+        await delay(250);
+
+        if (cancelled) return;
+        setLoadingMessage('Cargando modelos...');
+        // 3. Prefetch de Modelos en la cache de React Query
+        await queryClient.prefetchQuery({
+          queryKey: ['modelos'],
+          queryFn: () => modelosApi.listar().then(r => r.data),
+        });
+        await delay(250);
+
+        if (cancelled) return;
+        setLoadingMessage('Cargando catálogo de vehículos...');
+        // 4. Prefetch de Vehículos Disponibles en la cache de React Query
+        await queryClient.prefetchQuery({
+          queryKey: ['vehiculos', 'busqueda', { estado: 'DISPONIBLE' }],
+          queryFn: () => vehiculosApi.busqueda({ estado: 'DISPONIBLE' }).then(r => r.data),
+        });
+
         if (!cancelled) {
           setServerReady(true);
         }
       } catch {
         if (!cancelled) {
+          setLoadingMessage('Despertando la base de datos... Reintentando conexión...');
           retryTimer = window.setTimeout(waitForServer, 2000);
         }
       }
@@ -48,7 +86,7 @@ export default function App() {
           <div className="mx-auto mb-6 h-16 w-16 rounded-full border border-white/15 border-t-[#c9a84c] animate-spin" />
           <p className="font-display text-3xl font-bold tracking-tight">Levantando el servidor</p>
           <p className="mt-3 text-sm text-white/55 leading-relaxed">
-            Estamos despertando la API. Esta pantalla se actualiza sola cada 2 segundos hasta que el servidor responda.
+            {loadingMessage}
           </p>
         </div>
       </div>

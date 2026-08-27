@@ -22,7 +22,7 @@ export default function CatalogoPage() {
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { data, isLoading } = useVehiculosBusqueda(filtros);
+  const { data, isLoading, isFetching } = useVehiculosBusqueda(filtros);
   const { data: marcasData } = useMarcas();
   const { data: modelosData } = useModelos();
 
@@ -110,7 +110,15 @@ export default function CatalogoPage() {
       <div className="mb-8">
         <p className="text-[#c9a84c] text-xs font-semibold uppercase tracking-widest mb-1">Catálogo</p>
         <div className="flex items-end justify-between">
-          <h1 className="section-title">Vehículos disponibles</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="section-title">Vehículos disponibles</h1>
+            {isFetching && !isLoading && (
+              <span className="text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-full flex items-center gap-1.5 animate-pulse">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                Actualizando datos...
+              </span>
+            )}
+          </div>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="md:hidden btn-outline btn-sm flex items-center gap-2"
